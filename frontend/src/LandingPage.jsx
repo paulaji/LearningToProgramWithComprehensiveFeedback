@@ -290,7 +290,7 @@ def fibonacci_optimized(n):
 
             {/* Navigation */}
             <nav style={navStyle}>
-                <div style={logoStyle}>CodeMaster AI</div>
+                <div style={logoStyle}>Learning to Program with Comprehensive Feedback</div>
                 <div style={navLinksStyle}>
                     <a href="#features" style={navLinkStyle}>Features</a>
                     <a href="#demo" style={navLinkStyle}>Demo</a>
