@@ -1,0 +1,3 @@
+1) Was difficult setting the prompts because for different questions, I needed to engineer the prompts such that there will not be repetitions of questions (I got repetitions - at a point, only addition questions were coming) - had to craft the prompt in such a way that the questions were diversified.
+
+2) Since prompting didn't give me what I needed, I had to actually refer to questions dataset and feed it into the system so that I got more refinded questions.
