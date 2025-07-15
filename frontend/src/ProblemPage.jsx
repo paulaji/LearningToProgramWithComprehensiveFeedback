@@ -19,6 +19,20 @@ const ProblemPage = () => {
     const [codeSuggestions, setCodeSuggestions] = useState([]);
 
     useEffect(() => {
+        const loadPyodideInstance = async () => {
+            const pyodideScript = document.createElement('script');
+            pyodideScript.src = "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js";
+            pyodideScript.onload = async () => {
+                const pyodideInstance = await window.loadPyodide();
+                setPyodide(pyodideInstance);
+            };
+            document.body.appendChild(pyodideScript);
+        };
+
+        loadPyodideInstance();
+    }, []);
+
+    useEffect(() => {
         setIsLoaded(true);
 
         const handleMouseMove = (e) => {
@@ -53,45 +67,78 @@ print(f"Values: {nums[result[0]]}, {nums[result[1]]}")`);
         }, 1000);
     }, []);
 
+    //     const runCode = async () => {
+    //         setIsRunning(true);
+    //         setOutput('Running code...');
+
+    //         // Simulate code execution
+    //         setTimeout(() => {
+    //             setOutput(`Indices: [0, 1]
+    // Values: 2, 7`);
+
+    //             setAiFeedback(`Great approach! Your solution correctly identifies the target indices. 
+
+    // ✅ **Strengths:**
+    // - Clean implementation
+    // - Handles edge cases well
+    // - Good variable naming
+
+    // 🚀 **Optimization suggestion:**
+    // Consider using a hash map for O(n) time complexity instead of nested loops.`);
+
+    //             setTips([
+    //                 "Use a hash map to store numbers and their indices for faster lookups",
+    //                 "Remember to handle edge cases like empty arrays",
+    //                 "Consider what happens when no solution exists"
+    //             ]);
+
+    //             setCodeSuggestions([
+    //                 `def two_sum_optimized(nums, target):
+    //     num_map = {}
+    //     for i, num in enumerate(nums):
+    //         complement = target - num
+    //         if complement in num_map:
+    //             return [num_map[complement], i]
+    //         num_map[num] = i
+    //     return []`
+    //             ]);
+
+    //             setIsRunning(false);
+    //         }, 2000);
+    //     };
+
     const runCode = async () => {
+        if (!pyodide) {
+            setOutput('Pyodide not loaded yet. Please wait...');
+            return;
+        }
+
         setIsRunning(true);
         setOutput('Running code...');
 
-        // Simulate code execution
-        setTimeout(() => {
-            setOutput(`Indices: [0, 1]
-Values: 2, 7`);
+        try {
+            // Redirect stdout using Python's `io.StringIO`
+            await pyodide.runPythonAsync(`
+import sys
+from io import StringIO
 
-            setAiFeedback(`Great approach! Your solution correctly identifies the target indices. 
+sys.stdout = sys.stderr = output_buffer = StringIO()
+        `);
 
-✅ **Strengths:**
-- Clean implementation
-- Handles edge cases well
-- Good variable naming
+            // Run user code
+            await pyodide.runPythonAsync(code);
 
-🚀 **Optimization suggestion:**
-Consider using a hash map for O(n) time complexity instead of nested loops.`);
-
-            setTips([
-                "Use a hash map to store numbers and their indices for faster lookups",
-                "Remember to handle edge cases like empty arrays",
-                "Consider what happens when no solution exists"
-            ]);
-
-            setCodeSuggestions([
-                `def two_sum_optimized(nums, target):
-    num_map = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in num_map:
-            return [num_map[complement], i]
-        num_map[num] = i
-    return []`
-            ]);
-
+            // Get captured output
+            const result = await pyodide.runPythonAsync('output_buffer.getvalue()');
+            setOutput(result || 'Code executed (no output).');
+        } catch (err) {
+            setOutput(`❌ Error:\n${err}`);
+        } finally {
             setIsRunning(false);
-        }, 2000);
+        }
     };
+
+
 
     const containerStyle = {
         minHeight: '100vh',
