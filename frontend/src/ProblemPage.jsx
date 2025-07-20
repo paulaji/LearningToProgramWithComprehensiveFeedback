@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const ProblemPage = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -6,9 +7,14 @@ const ProblemPage = () => {
     const [activeTab, setActiveTab] = useState('code');
 
     // Mock topic from URL params
-    const topic = 'arrays';
+    const [searchParams] = useSearchParams();
+    const topic = searchParams.get("topic");
+    const topicDifficulty = searchParams.get("topicDifficulty");
+    const topicDescription = searchParams.get("topicDescriptionForBackend");
 
-    const [question, setQuestion] = useState('Loading question...');
+    const [question, setQuestion] = useState('');
+    const [answer, setAnswer] = useState('');
+
     const [code, setCode] = useState(`# Write your Python code here for topic: ${topic}\n`);
     const [output, setOutput] = useState('');
     const [pyodide, setPyodide] = useState(null);
@@ -42,70 +48,6 @@ const ProblemPage = () => {
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
-
-    // Mock data for demo
-    useEffect(() => {
-        setTimeout(() => {
-            setQuestion(`Given an array of integers, find the two numbers that add up to a specific target sum. 
-            
-Return the indices of the two numbers such that they add up to the target.
-
-Example:
-Input: nums = [2, 7, 11, 15], target = 9
-Output: [0, 1] (because nums[0] + nums[1] = 2 + 7 = 9)`);
-
-            setCode(`def two_sum(nums, target):
-    # Your solution here
-    pass
-
-# Test your solution
-nums = [2, 7, 11, 15]
-target = 9
-result = two_sum(nums, target)
-print(f"Indices: {result}")
-print(f"Values: {nums[result[0]]}, {nums[result[1]]}")`);
-        }, 1000);
-    }, []);
-
-    //     const runCode = async () => {
-    //         setIsRunning(true);
-    //         setOutput('Running code...');
-
-    //         // Simulate code execution
-    //         setTimeout(() => {
-    //             setOutput(`Indices: [0, 1]
-    // Values: 2, 7`);
-
-    //             setAiFeedback(`Great approach! Your solution correctly identifies the target indices. 
-
-    // ✅ **Strengths:**
-    // - Clean implementation
-    // - Handles edge cases well
-    // - Good variable naming
-
-    // 🚀 **Optimization suggestion:**
-    // Consider using a hash map for O(n) time complexity instead of nested loops.`);
-
-    //             setTips([
-    //                 "Use a hash map to store numbers and their indices for faster lookups",
-    //                 "Remember to handle edge cases like empty arrays",
-    //                 "Consider what happens when no solution exists"
-    //             ]);
-
-    //             setCodeSuggestions([
-    //                 `def two_sum_optimized(nums, target):
-    //     num_map = {}
-    //     for i, num in enumerate(nums):
-    //         complement = target - num
-    //         if complement in num_map:
-    //             return [num_map[complement], i]
-    //         num_map[num] = i
-    //     return []`
-    //             ]);
-
-    //             setIsRunning(false);
-    //         }, 2000);
-    //     };
 
     const runCode = async () => {
         if (!pyodide) {
@@ -371,7 +313,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
 
             <div style={headerStyle}>
                 <div style={topicBadgeStyle}>
-                    🎯 {topic}
+                    🎯 {topic} - {topicDifficulty}
                 </div>
                 <h1 style={titleStyle}>Two Sum Problem</h1>
                 <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '16px' }}>
@@ -383,14 +325,24 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                 <div style={mainPanelStyle}>
                     <div style={questionCardStyle}>
                         <h3 style={sectionTitleStyle}>
-                            <span>📋</span> Problem Statement
+                            <button
+                                style={runButtonStyle}
+                                onClick={async () => {
+                                    const res = await fetch(`http://localhost:5000/getproblemstatement?topic=${topic}&difficulty=${topicDifficulty}&description=${topicDescription}`);
+                                    const data = await res.json();
+                                    setQuestion(data.question ?? '');
+                                    setAnswer(data.answer ?? '');
+                                }}
+                            >
+                                <span>📋</span> View Problem Statement
+                            </button>
                         </h3>
                         <div style={{
                             color: 'rgba(255, 255, 255, 0.8)',
                             lineHeight: '1.6',
                             whiteSpace: 'pre-line'
                         }}>
-                            {question}
+                            Question: {question} Answer: {answer}
                         </div>
                     </div>
 

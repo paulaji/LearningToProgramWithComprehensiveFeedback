@@ -8,6 +8,7 @@ const topics = [
         icon: '🔢',
         difficulty: 'Beginner',
         duration: '45 min',
+        descriptionForBackend: 'VariablesAndDataTypes',
         color: '#3b82f6'
     },
     {
@@ -17,6 +18,7 @@ const topics = [
         icon: '🔄',
         difficulty: 'Beginner',
         duration: '60 min',
+        descriptionForBackend: 'ControlFlow',
         color: '#10b981'
     },
     {
@@ -26,6 +28,7 @@ const topics = [
         icon: '⚙️',
         difficulty: 'Intermediate',
         duration: '75 min',
+        descriptionForBackend: 'Functions',
         color: '#8b5cf6'
     },
     {
@@ -35,6 +38,7 @@ const topics = [
         icon: '📋',
         difficulty: 'Intermediate',
         duration: '90 min',
+        descriptionForBackend: 'ListsAndDictionaries',
         color: '#f59e0b'
     },
     {
@@ -44,6 +48,7 @@ const topics = [
         icon: '📁',
         difficulty: 'Intermediate',
         duration: '50 min',
+        descriptionForBackend: 'FileHandling',
         color: '#ef4444'
     },
     {
@@ -53,6 +58,7 @@ const topics = [
         icon: '🏗️',
         difficulty: 'Advanced',
         duration: '120 min',
+        descriptionForBackend: 'ObjectOrientedProgramming',
         color: '#ec4899'
     }
 ];
@@ -319,7 +325,7 @@ const CoursePage = () => {
                     {filteredTopics.map((topic, index) => (
                         <a
                             key={topic.id}
-                            href={`/problem?topic=${topic.id}`}
+                            href={`/problem?topic=${topic.id}&topicDifficulty=${topic.difficulty}&topicDescriptionForBackend=${topic.descriptionForBackend}`}
                             style={topicCardStyle(topic, index)}
                             onMouseEnter={(e) => {
                                 setHoveredTopic(topic.id);
