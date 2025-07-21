@@ -356,7 +356,8 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'flex-start',
-                            gap: '8px'
+                            gap: '8px',
+                            userSelect: 'none'
                         }}>
                             <span style={{ fontSize: '18px' }}>❓</span>
                             <span>{question}</span>
