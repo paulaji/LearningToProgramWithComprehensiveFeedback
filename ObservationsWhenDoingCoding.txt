@@ -13,3 +13,5 @@
 7) Gamification in the UI can be done, for example - to reveal the answer, there can be a point system. Users will get points if they get correct answers and they can redeem/use the points to reveal the answers.
 Same way can happen with tips - for say, tips can cost around 1 point and to reveal the answers, it is gonna be 3 points.
 This will engage the users more and there can be some other way too to accumulate points.
+
+8) When doing difficult problems, the code will be large - it is a problem to format the code text in the frontend and also to AI check the answers, it will hard because there will be a lot of ways and different variables to do the answer.
