@@ -50,7 +50,7 @@ def get_problem_statement():
         },
         {
             "role": "user",
-            "content": f"Generate a python programming answer for the question: {question}. No explanation, only the python formatted answer text.",
+            "content": f"Generate a python programming answer for the question: {question}. No explanation, only the python formatted answer text. Please provide the final answer too. Please try to provide diverse and different questions. We have to create a learning experience for the students. Don't try to stick to a niche.",
         }
     ],
     model="llama-3.3-70b-versatile",
