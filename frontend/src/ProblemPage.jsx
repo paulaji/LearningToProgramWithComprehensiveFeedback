@@ -23,6 +23,7 @@ const ProblemPage = () => {
     const [aiFeedback, setAiFeedback] = useState("");
     const [tipsAndSuggestions, setTipsAndSuggestions] = useState("");
     const [codeSuggestions, setCodeSuggestions] = useState([]);
+    const [questionBrief, setQuestionBrief] = useState("Question...");
 
     const [blurValue, setBlurValue] = useState("8px");
 
@@ -317,9 +318,9 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                 <div style={topicBadgeStyle}>
                     🎯 {topic} - {topicDifficulty}
                 </div>
-                <h1 style={titleStyle}>Two Sum Problem</h1>
+                <h1 style={titleStyle}>{questionBrief}</h1>
                 <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '16px' }}>
-                    Master array manipulation with this classic algorithm challenge
+                    Master {topic} with this AI generated coding challenges.
                 </p>
             </div>
 
@@ -336,6 +337,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                                     setQuestion(data.question ?? '');
                                     setAnswer(data.answer ?? '');
                                     setTipsAndSuggestions(data.tips_and_suggestions ?? '');
+                                    setQuestionBrief(data.question_brief ?? '');
                                 }}
                             >
                                 <span>📋</span> View Problem Statement
@@ -420,17 +422,27 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
 
                     <div style={cardStyle}>
                         <h3 style={sectionTitleStyle}>
-                            <span>🟢</span> Optimized Solution
+                            <span>🟢</span> Optimized Answer
                         </h3>
                         <div
                             style={{
                                 filter: `blur(${blurValue})`,
+                                cursor: blurValue !== "0px" ? 'pointer' : 'text',
+                                whiteSpace: 'pre-wrap',
+                                fontFamily: 'monospace',
+                                backgroundColor: '#0f172a',
+                                padding: '16px',
+                                borderRadius: '8px',
+                                color: 'white',
+                                lineHeight: '1.5',
+                                fontSize: '14px',
                             }}
                             onClick={() => { setBlurValue("0px"); }}
                         >
                             {answer}
                         </div>
                     </div>
+
                 </div>
             </div>
 

@@ -15,3 +15,7 @@ Same way can happen with tips - for say, tips can cost around 1 point and to rev
 This will engage the users more and there can be some other way too to accumulate points.
 
 8) When doing difficult problems, the code will be large - it is a problem to format the code text in the frontend and also to AI check the answers, it will hard because there will be a lot of ways and different variables to do the answer.
+
+9) Had to stick with beginner problems because everybody started to learn has to get a base.
+
+10) Proper text formatting should be done. The text sent from the backend is just plain text and in the UI, for the students to understand, proper Python kinda syntaxing needed to be done.

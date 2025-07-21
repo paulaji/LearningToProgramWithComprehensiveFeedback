@@ -50,7 +50,7 @@ def get_problem_statement():
         },
         {
             "role": "user",
-            "content": f"Generate a plain programming answer for the question: {question}. No explanation or formatting, only the answer text.",
+            "content": f"Generate a python programming answer for the question: {question}. No explanation, only the python formatted answer text.",
         }
     ],
     model="llama-3.3-70b-versatile",
@@ -75,10 +75,28 @@ def get_problem_statement():
     print("Tips and Suggestions are: ", chat_completion.choices[0].message.content)
     tip_and_suggestions = chat_completion.choices[0].message.content
 
+    # Short Question Brief
+    chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You provide text briefs and one-liners."
+        },
+        {
+            "role": "user",
+            "content": f"Generate a small question statement and not an answer one-liner or one-worder brief for the question - {question}. The question brief should be smaller than the question.",
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+    )
+    print("The question brief is ", chat_completion.choices[0].message.content)
+    question_brief = chat_completion.choices[0].message.content
+
     return jsonify({
         "question": str(question),
         "answer": str(answer),
         "tips_and_suggestions": str(tip_and_suggestions),
+        "question_brief": str(question_brief),
     })
 
 
