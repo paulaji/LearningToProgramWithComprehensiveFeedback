@@ -344,11 +344,22 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             </button>
                         </h3>
                         <div style={{
-                            color: 'rgba(255, 255, 255, 0.8)',
+                            color: '#fefefe',
                             lineHeight: '1.6',
-                            whiteSpace: 'pre-line'
+                            whiteSpace: 'pre-line',
+                            fontWeight: '600',
+                            fontSize: '16px',
+                            marginBottom: '12px',
+                            backgroundColor: 'rgba(239, 68, 68, 0.3)', // subtle red background
+                            padding: '12px 16px',
+                            borderLeft: '4px solid rgba(239, 68, 68, 1)', // subtle red border
+                            borderRadius: '6px',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '8px'
                         }}>
-                            {question}
+                            <span style={{ fontSize: '18px' }}>❓</span>
+                            <span>{question}</span>
                         </div>
                     </div>
 
