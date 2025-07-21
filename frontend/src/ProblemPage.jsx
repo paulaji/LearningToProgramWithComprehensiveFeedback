@@ -27,6 +27,9 @@ const ProblemPage = () => {
 
     const [blurValue, setBlurValue] = useState("8px");
 
+    const [timeLeft, setTimeLeft] = useState(300);
+    const [showClock, setShowClock] = useState(true);
+
     useEffect(() => {
         const loadPyodideInstance = async () => {
             const pyodideScript = document.createElement('script');
@@ -83,7 +86,46 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         }
     };
 
+    // useEffect(() => {
+    //     if (!showClock) return;
 
+    //     const interval = setInterval(() => {
+    //         setTimeLeft((prev) => {
+    //             if (prev <= 1) {
+    //                 clearInterval(interval);
+    //                 setShowClock(false); // Hide clock when time's up
+    //                 return 0;
+    //             }
+    //             return prev - 1;
+    //         });
+    //     }, 1000);
+
+    //     return () => clearInterval(interval);
+    // }, [showClock]);
+
+    const startClock = () => {
+        if (!showClock) return;
+
+        const interval = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    setShowClock(false); // Hide clock when time's up
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    };
+
+    // Convert seconds to MM:SS format
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    // Format with leading zeros
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
     const containerStyle = {
         minHeight: '100vh',
@@ -338,10 +380,16 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                                     setAnswer(data.answer ?? '');
                                     setTipsAndSuggestions(data.tips_and_suggestions ?? '');
                                     setQuestionBrief(data.question_brief ?? '');
+                                    startClock();
                                 }}
                             >
                                 <span>📋</span> View Problem Statement
                             </button>
+                            {showClock && (
+                                <span style={{ color: 'white', fontSize: '24px' }}>
+                                    ⏰ {formattedTime}
+                                </span>
+                            )}
                         </h3>
                         <div style={{
                             color: '#fefefe',
