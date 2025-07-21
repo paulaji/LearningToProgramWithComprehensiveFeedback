@@ -24,6 +24,8 @@ const ProblemPage = () => {
     const [tips, setTips] = useState([]);
     const [codeSuggestions, setCodeSuggestions] = useState([]);
 
+    const [blurValue, setBlur] = useState("8px");
+
     useEffect(() => {
         const loadPyodideInstance = async () => {
             const pyodideScript = document.createElement('script');
@@ -328,6 +330,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             <button
                                 style={runButtonStyle}
                                 onClick={async () => {
+                                    setBlur("8px");
                                     const res = await fetch(`http://localhost:5000/getproblemstatement?topic=${topic}&difficulty=${topicDifficulty}&description=${topicDescription}`);
                                     const data = await res.json();
                                     setQuestion(data.question ?? '');
@@ -342,7 +345,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             lineHeight: '1.6',
                             whiteSpace: 'pre-line'
                         }}>
-                            Question: {question} Answer: {answer}
+                            {question}
                         </div>
                     </div>
 
@@ -390,49 +393,57 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                 </div>
 
                 <div style={sidebarStyle}>
-                    {aiFeedback && (
-                        <div style={aiFeedbackStyle}>
-                            <h3 style={sectionTitleStyle}>
-                                <span>🤖</span> AI Feedback
-                            </h3>
-                            <div style={{
-                                color: 'rgba(255, 255, 255, 0.9)',
-                                lineHeight: '1.6',
-                                whiteSpace: 'pre-line'
-                            }}>
-                                {aiFeedback}
+                    <div style={aiFeedbackStyle}>
+                        <h3 style={sectionTitleStyle}>
+                            <span>🤖</span> AI Feedback
+                        </h3>
+                        <div style={{
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            lineHeight: '1.6',
+                            whiteSpace: 'pre-line'
+                        }}>
+                            {aiFeedback}
+                        </div>
+                    </div>
+
+                    <div style={cardStyle}>
+                        <h3 style={sectionTitleStyle}>
+                            <span>💡</span> Tips & Hints
+                        </h3>
+                        {tips.map((tip, idx) => (
+                            <div key={idx} style={tipStyle}>
+                                <span style={{ color: '#22c55e', fontSize: '12px' }}>✓</span>
+                                <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px' }}>
+                                    {tip}
+                                </span>
                             </div>
-                        </div>
-                    )}
+                        ))}
+                    </div>
 
-                    {tips.length > 0 && (
-                        <div style={cardStyle}>
-                            <h3 style={sectionTitleStyle}>
-                                <span>💡</span> Tips & Hints
-                            </h3>
-                            {tips.map((tip, idx) => (
-                                <div key={idx} style={tipStyle}>
-                                    <span style={{ color: '#22c55e', fontSize: '12px' }}>✓</span>
-                                    <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px' }}>
-                                        {tip}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    <div style={cardStyle}>
+                        <h3 style={sectionTitleStyle}>
+                            <span>🔥</span> Optimized Solution
+                        </h3>
+                        {codeSuggestions.map((suggestion, idx) => (
+                            <div key={idx} style={codeSuggestionStyle}>
+                                {suggestion}
+                            </div>
+                        ))}
+                    </div>
 
-                    {codeSuggestions.length > 0 && (
-                        <div style={cardStyle}>
-                            <h3 style={sectionTitleStyle}>
-                                <span>🔥</span> Optimized Solution
-                            </h3>
-                            {codeSuggestions.map((suggestion, idx) => (
-                                <div key={idx} style={codeSuggestionStyle}>
-                                    {suggestion}
-                                </div>
-                            ))}
+                    <div style={cardStyle}>
+                        <h3 style={sectionTitleStyle}>
+                            <span>🟢</span> Answer
+                        </h3>
+                        <div
+                            style={{
+                                filter: `blur(${blurValue})`,
+                            }}
+
+                        >
+                            {answer}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
 
@@ -477,7 +488,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                     }
                 }
             `}</style>
-        </div>
+        </div >
     );
 };
 
