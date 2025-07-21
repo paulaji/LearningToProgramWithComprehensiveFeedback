@@ -26,7 +26,7 @@ const topics = [
         title: 'Functions',
         description: 'Define and call functions, pass arguments, return values, and understand scope.',
         icon: '⚙️',
-        difficulty: 'Intermediate',
+        difficulty: 'Beginner',
         duration: '75 min',
         descriptionForBackend: 'Functions',
         color: '#8b5cf6'
@@ -36,7 +36,7 @@ const topics = [
         title: 'Lists & Dictionaries',
         description: 'Work with Python collections like lists and dictionaries for data organization.',
         icon: '📋',
-        difficulty: 'Intermediate',
+        difficulty: 'Beginner',
         duration: '90 min',
         descriptionForBackend: 'ListsAndDictionaries',
         color: '#f59e0b'
@@ -46,7 +46,7 @@ const topics = [
         title: 'File Handling',
         description: 'Read and write to files using Python, handle exceptions and file operations.',
         icon: '📁',
-        difficulty: 'Intermediate',
+        difficulty: 'Beginner',
         duration: '50 min',
         descriptionForBackend: 'FileHandling',
         color: '#ef4444'
@@ -56,7 +56,7 @@ const topics = [
         title: 'Object-Oriented Programming',
         description: 'Master classes, objects, inheritance, polymorphism, and encapsulation.',
         icon: '🏗️',
-        difficulty: 'Advanced',
+        difficulty: 'Beginner',
         duration: '120 min',
         descriptionForBackend: 'ObjectOrientedProgramming',
         color: '#ec4899'
@@ -64,7 +64,7 @@ const topics = [
 ];
 
 const CoursePage = () => {
-    const [selectedFilter, setSelectedFilter] = useState('All');
+    const [selectedFilter, setSelectedFilter] = useState('Beginner');
     const [hoveredTopic, setHoveredTopic] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -72,9 +72,9 @@ const CoursePage = () => {
         setIsLoaded(true);
     }, []);
 
-    const filters = ['All', 'Beginner', 'Intermediate', 'Advanced'];
+    const filters = ['Beginner', 'Intermediate', 'Advanced'];
 
-    const filteredTopics = selectedFilter === 'All'
+    const filteredTopics = selectedFilter === 'Beginner'
         ? topics
         : topics.filter(topic => topic.difficulty === selectedFilter);
 
@@ -351,7 +351,7 @@ const CoursePage = () => {
                                     {topic.difficulty}
                                 </span>
                                 <span style={durationStyle}>
-                                    ⏱️ {topic.duration}
+                                    Recommended Practice Time: ⏱️ {topic.duration}
                                 </span>
                             </div>
 
@@ -363,6 +363,26 @@ const CoursePage = () => {
                             />
                         </a>
                     ))}
+                    {(selectedFilter === 'Intermediate' || selectedFilter === 'Advanced') && (
+                        <div
+                            style={{
+                                gridColumn: '1 / -1',
+                                textAlign: 'center',
+                                padding: '48px 24px',
+                                background: 'linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(236,72,153,0.08) 100%)',
+                                borderRadius: '20px',
+                                border: '1px solid rgba(139,92,246,0.15)',
+                                color: '#a78bfa',
+                                fontSize: '1.5rem',
+                                fontWeight: 600,
+                                marginTop: '32px',
+                                letterSpacing: '0.5px',
+                                boxShadow: '0 4px 24px 0 rgba(139,92,246,0.08)'
+                            }}
+                        >
+                            🚧 Courses coming soon...
+                        </div>
+                    )}
                 </div>
 
                 {/* Call to Action */}
