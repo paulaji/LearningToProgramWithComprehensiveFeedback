@@ -327,7 +327,7 @@ def fibonacci_optimized(n):
                         <span style={{ color: '#f59e0b', fontWeight: '600' }}>Copilot</span>
                     </p>
 
-                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                    {/* <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
                         <a
                             href="/course"
                             style={primaryButtonStyle}
@@ -356,32 +356,10 @@ def fibonacci_optimized(n):
                         >
                             🎥 Watch Demo
                         </button>
-                    </div>
+                    </div> */}
                 </div>
 
-                {/* Features Grid */}
-                <div id="features" style={featuresGridStyle}>
-                    {features.map((feature, index) => (
-                        <div
-                            key={index}
-                            style={featureCardStyle(index)}
-                            onMouseEnter={(e) => {
-                                e.target.style.transform = 'translateY(-8px) scale(1.02)';
-                                e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                                e.target.style.boxShadow = '0 25px 50px rgba(139, 92, 246, 0.2)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.transform = 'translateY(0) scale(1)';
-                                e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-                                e.target.style.boxShadow = 'none';
-                            }}
-                        >
-                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>{feature.icon}</div>
-                            <h3 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px' }}>{feature.title}</h3>
-                            <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '16px', lineHeight: '1.5' }}>{feature.desc}</p>
-                        </div>
-                    ))}
-                </div>
+
 
                 {/* Code Demo Section */}
                 <div id="demo" style={demoSectionStyle}>
@@ -439,6 +417,30 @@ def fibonacci_optimized(n):
                             <div style={{ fontSize: '12px', opacity: 0.9 }}>Use dynamic programming for O(n) complexity</div>
                         </div>
                     </div>
+                </div>
+
+                {/* Features Grid */}
+                <div id="features" style={featuresGridStyle}>
+                    {features.map((feature, index) => (
+                        <div
+                            key={index}
+                            style={featureCardStyle(index)}
+                            onMouseEnter={(e) => {
+                                e.target.style.transform = 'translateY(-8px) scale(1.02)';
+                                e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                                e.target.style.boxShadow = '0 25px 50px rgba(139, 92, 246, 0.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.transform = 'translateY(0) scale(1)';
+                                e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                                e.target.style.boxShadow = 'none';
+                            }}
+                        >
+                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>{feature.icon}</div>
+                            <h3 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px' }}>{feature.title}</h3>
+                            <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '16px', lineHeight: '1.5' }}>{feature.desc}</p>
+                        </div>
+                    ))}
                 </div>
 
                 {/* CTA Section */}
