@@ -282,7 +282,7 @@ const CoursePage = () => {
                         <span style={statLabelStyle}>Complete Courses</span>
                     </div>
                     <div style={statCardStyle}>
-                        <span style={statNumberStyle}>50+</span>
+                        <span style={statNumberStyle}>∞</span>
                         <span style={statLabelStyle}>Coding Challenges</span>
                     </div>
                     <div style={statCardStyle}>
@@ -392,29 +392,6 @@ const CoursePage = () => {
                     }}>
                         Pick any topic above and begin your journey to becoming a Python expert with our AI-powered learning platform.
                     </p>
-                    <button style={{
-                        padding: '16px 32px',
-                        background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)',
-                        border: 'none',
-                        borderRadius: '25px',
-                        color: 'white',
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 10px 30px rgba(139, 92, 246, 0.3)'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.target.style.transform = 'translateY(-2px) scale(1.05)';
-                            e.target.style.boxShadow = '0 15px 40px rgba(139, 92, 246, 0.4)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.target.style.transform = 'translateY(0) scale(1)';
-                            e.target.style.boxShadow = '0 10px 30px rgba(139, 92, 246, 0.3)';
-                        }}
-                    >
-                        🚀 Get Started Now
-                    </button>
                 </div>
             </div>
 

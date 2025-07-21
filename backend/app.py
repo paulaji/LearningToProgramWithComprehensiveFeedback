@@ -58,9 +58,27 @@ def get_problem_statement():
     print("Answer is: ", chat_completion.choices[0].message.content)
     answer = chat_completion.choices[0].message.content
 
+    # Tips & Hints
+    chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You provide Python tips and hints to coding problems."
+        },
+        {
+            "role": "user",
+            "content": f"Generate a plain text programming tips and hints for the question: {question} and the answer: {answer}. No explanation or formatting, only the tips and hints text - but you can give in proper paragraph format like capitalizing the first letter, full stop after sentences and all. Please keep this small and concise. You can give a small example too which is not very obvious, but yeah which can help.",
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+    )
+    print("Tips and Suggestions are: ", chat_completion.choices[0].message.content)
+    tip_and_suggestions = chat_completion.choices[0].message.content
+
     return jsonify({
         "question": str(question),
-        "answer": str(answer)
+        "answer": str(answer),
+        "tips_and_suggestions": str(tip_and_suggestions),
     })
 
 

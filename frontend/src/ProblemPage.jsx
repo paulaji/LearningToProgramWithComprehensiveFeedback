@@ -20,11 +20,11 @@ const ProblemPage = () => {
     const [pyodide, setPyodide] = useState(null);
     const [isRunning, setIsRunning] = useState(false);
 
-    const [aiFeedback, setAiFeedback] = useState('');
-    const [tips, setTips] = useState([]);
+    const [aiFeedback, setAiFeedback] = useState("");
+    const [tipsAndSuggestions, setTipsAndSuggestions] = useState("");
     const [codeSuggestions, setCodeSuggestions] = useState([]);
 
-    const [blurValue, setBlur] = useState("8px");
+    const [blurValue, setBlurValue] = useState("8px");
 
     useEffect(() => {
         const loadPyodideInstance = async () => {
@@ -330,11 +330,12 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             <button
                                 style={runButtonStyle}
                                 onClick={async () => {
-                                    setBlur("8px");
+                                    setBlurValue("8px");
                                     const res = await fetch(`http://localhost:5000/getproblemstatement?topic=${topic}&difficulty=${topicDifficulty}&description=${topicDescription}`);
                                     const data = await res.json();
                                     setQuestion(data.question ?? '');
                                     setAnswer(data.answer ?? '');
+                                    setTipsAndSuggestions(data.tips_and_suggestions ?? '');
                                 }}
                             >
                                 <span>📋</span> View Problem Statement
@@ -410,36 +411,22 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                         <h3 style={sectionTitleStyle}>
                             <span>💡</span> Tips & Hints
                         </h3>
-                        {tips.map((tip, idx) => (
-                            <div key={idx} style={tipStyle}>
-                                <span style={{ color: '#22c55e', fontSize: '12px' }}>✓</span>
-                                <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px' }}>
-                                    {tip}
-                                </span>
-                            </div>
-                        ))}
+                        <div>
+                            <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px' }}>
+                                {tipsAndSuggestions}
+                            </span>
+                        </div>
                     </div>
 
                     <div style={cardStyle}>
                         <h3 style={sectionTitleStyle}>
-                            <span>🔥</span> Optimized Solution
-                        </h3>
-                        {codeSuggestions.map((suggestion, idx) => (
-                            <div key={idx} style={codeSuggestionStyle}>
-                                {suggestion}
-                            </div>
-                        ))}
-                    </div>
-
-                    <div style={cardStyle}>
-                        <h3 style={sectionTitleStyle}>
-                            <span>🟢</span> Answer
+                            <span>🟢</span> Optimized Solution
                         </h3>
                         <div
                             style={{
                                 filter: `blur(${blurValue})`,
                             }}
-
+                            onClick={() => { setBlurValue("0px"); }}
                         >
                             {answer}
                         </div>
