@@ -144,7 +144,7 @@ def errorfeedback():
         },
         {
             "role": "user",
-            "content": f"Generate a feedback statement regarding the {error} - error statement.",
+            "content": f"Generate a feedback statement regarding the {error} - error statement. No need to mention the error lines.",
         }
     ],
     model="llama-3.3-70b-versatile",
