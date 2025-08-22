@@ -135,6 +135,7 @@ def errorfeedback():
     data = request.get_json()
 
     error = data.get('err')
+    answer = data.get('answer')
 
     chat_completion = client.chat.completions.create(
     messages=[
@@ -144,7 +145,7 @@ def errorfeedback():
         },
         {
             "role": "user",
-            "content": f"Generate a feedback statement regarding the {error} - error statement. No need to mention the error lines.",
+            "content": f"Generate a feedback statement regarding the {error} - error statement. The correct AI generated answer is {answer}. Give a feedback as to how to tackle this error too. No need to mention the error lines.",
         }
     ],
     model="llama-3.3-70b-versatile",

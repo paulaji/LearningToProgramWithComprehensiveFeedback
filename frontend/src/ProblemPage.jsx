@@ -107,7 +107,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ err })
+                body: JSON.stringify({ err, answer })
             });
             const backendResultData = await backendResult.json();
             setAiFeedback(backendResultData.feedback);
