@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const ProblemPage = () => {
@@ -27,10 +27,10 @@ const ProblemPage = () => {
 
     const [blurValue, setBlurValue] = useState("8px");
 
-    // Timer related state and ref
+    let timerInterval = null;
+
     const [timeLeft, setTimeLeft] = useState(300);
     const [showClock, setShowClock] = useState(true);
-    const timerIntervalRef = useRef(null);
 
     useEffect(() => {
         const loadPyodideInstance = async () => {
@@ -55,15 +55,6 @@ const ProblemPage = () => {
 
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
-
-    // Clean up timer on component unmount
-    useEffect(() => {
-        return () => {
-            if (timerIntervalRef.current) {
-                clearInterval(timerIntervalRef.current);
-            }
-        };
     }, []);
 
     const runCode = async () => {
@@ -97,44 +88,40 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         }
     };
 
-    // Fixed startClock function
-    const startClock = () => {
-        // Clear any existing timer first
-        if (timerIntervalRef.current) {
-            clearInterval(timerIntervalRef.current);
-        }
+    // useEffect(() => {
+    //     if (!showClock) return;
 
+    //     const interval = setInterval(() => {
+    //         setTimeLeft((prev) => {
+    //             if (prev <= 1) {
+    //                 clearInterval(interval);
+    //                 setShowClock(false); // Hide clock when time's up
+    //                 return 0;
+    //             }
+    //             return prev - 1;
+    //         });
+    //     }, 1000);
+
+    //     return () => clearInterval(interval);
+    // }, [showClock]);
+
+    const startClock = () => {
         if (!showClock) return;
 
-        // Store the interval reference
-        timerIntervalRef.current = setInterval(() => {
+        const interval = setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
-                    clearInterval(timerIntervalRef.current);
-                    timerIntervalRef.current = null;
+                    clearInterval(interval);
                     setShowClock(false); // Hide clock when time's up
                     return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
+
+        return () => clearInterval(interval);
     };
 
-    // Handle View Problem Statement button click
-    const handleViewProblemStatement = async () => {
-        setBlurValue("8px");
-        const res = await fetch(`http://localhost:5000/getproblemstatement?topic=${topic}&difficulty=${topicDifficulty}&description=${topicDescription}`);
-        const data = await res.json();
-        setQuestion(data.question ?? '');
-        setAnswer(data.answer ?? '');
-        setTipsAndSuggestions(data.tips_and_suggestions ?? '');
-        setQuestionBrief(data.question_brief ?? '');
-
-        // Reset and start timer
-        setTimeLeft(300);
-        setShowClock(true);
-        startClock();
-    };
 
     // Convert seconds to MM:SS format
     const minutes = Math.floor(timeLeft / 60);
@@ -388,7 +375,18 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                         <h3 style={sectionTitleStyle}>
                             <button
                                 style={runButtonStyle}
-                                onClick={handleViewProblemStatement}
+                                onClick={async () => {
+                                    setBlurValue("8px");
+                                    const res = await fetch(`http://localhost:5000/getproblemstatement?topic=${topic}&difficulty=${topicDifficulty}&description=${topicDescription}`);
+                                    const data = await res.json();
+                                    setQuestion(data.question ?? '');
+                                    setAnswer(data.answer ?? '');
+                                    setTipsAndSuggestions(data.tips_and_suggestions ?? '');
+                                    setQuestionBrief(data.question_brief ?? '');
+                                    setTimeLeft(300);
+                                    setShowClock(true);
+                                    startClock();
+                                }}
                             >
                                 <span>📋</span> View Problem Statement
                             </button>

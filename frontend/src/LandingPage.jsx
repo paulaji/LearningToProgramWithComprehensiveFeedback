@@ -455,7 +455,7 @@ def fibonacci_optimized(n):
                         maxWidth: '600px',
                         margin: '0 auto 32px auto'
                     }}>
-                        Join thousands of developers who are already mastering Python with our AI-powered platform
+                        Learn by Doing, Do by Learning
                     </p>
                     <a
                         href="/course"

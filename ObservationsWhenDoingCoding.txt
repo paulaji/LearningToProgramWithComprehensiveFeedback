@@ -19,3 +19,5 @@ This will engage the users more and there can be some other way too to accumulat
 9) Had to stick with beginner problems because everybody started to learn has to get a base.
 
 10) Proper text formatting should be done. The text sent from the backend is just plain text and in the UI, for the students to understand, proper Python kinda syntaxing needed to be done.
+
+11) When getting the results, the results are from AI, not sure about the accuracy. But since they are trained on heavy parameters and stuff, and with the added tips and hints and human brains, the answers might be correct.
