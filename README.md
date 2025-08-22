@@ -18,6 +18,26 @@
 * **Courses Page**: Provides an overview of available topics and allows users to select a topic to begin learning.
 * **Problem Page**: Where learners interact with dynamically generated coding challenges. They can view questions, code solutions, and receive AI-generated feedback.
 
+## Snapshots
+* ![Landing Page](snapshots/landingpage.jpeg)
+* Landing Page
+* ![Courses Page](snapshots/coursespage.jpeg)
+* Courses Page
+* ![Empty State Problem Page](snapshots/emptystateproblempage.jpeg)
+* Empty State Problem Page
+* ![Proper_Feedback](snapshots/properfeedback.jpeg)
+* Proper Feedback Capture
+* ![Room_For_Improvement](snapshots/roomforimprovement.jpeg)
+* Room For Improvement
+* ![Output_Code](snapshots/outputcode.png)
+* Output Section
+* ![Can_Detect_Error](snapshots/candetecterror.jpeg)
+* Can Detect Error
+
+
+
+
+
 ## Technologies Used
 
 * **React**: For building a fast and interactive user interface.
