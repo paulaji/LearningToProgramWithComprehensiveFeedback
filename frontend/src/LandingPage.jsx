@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const LandingPage = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -283,12 +283,10 @@ def fibonacci_optimized(n):
         <div style={containerStyle}>
             <div style={mouseGlowStyle} />
 
-            {/* Floating particles */}
             {[...Array(8)].map((_, i) => (
                 <ParticleComponent key={i} index={i} />
             ))}
 
-            {/* Navigation */}
             <nav style={navStyle}>
                 <div style={logoStyle}>Learning to Program with Comprehensive Feedback</div>
                 <div style={navLinksStyle}>
@@ -310,9 +308,7 @@ def fibonacci_optimized(n):
                 </div>
             </nav>
 
-            {/* Main Content */}
             <div style={{ position: 'relative', zIndex: 10, maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-                {/* Hero Section */}
                 <div style={heroSectionStyle}>
                     <h1 style={mainTitleStyle}>
                         Master Programming<br />
@@ -326,42 +322,10 @@ def fibonacci_optimized(n):
                         <span style={{ color: '#3b82f6', fontWeight: '600' }}>Replit</span>, and{' '}
                         <span style={{ color: '#f59e0b', fontWeight: '600' }}>Copilot</span>
                     </p>
-
-                    {/* <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-                        <a
-                            href="/course"
-                            style={primaryButtonStyle}
-                            onMouseEnter={(e) => {
-                                e.target.style.transform = 'translateY(-4px) scale(1.05)';
-                                e.target.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.4)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.transform = 'translateY(0) scale(1)';
-                                e.target.style.boxShadow = '0 10px 40px rgba(139, 92, 246, 0.3)';
-                            }}
-                        >
-                            🚀 Start Learning
-                        </a>
-
-                        <button
-                            style={secondaryButtonStyle}
-                            onMouseEnter={(e) => {
-                                e.target.style.background = '#8b5cf6';
-                                e.target.style.transform = 'translateY(-2px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.background = 'transparent';
-                                e.target.style.transform = 'translateY(0)';
-                            }}
-                        >
-                            🎥 Watch Demo
-                        </button>
-                    </div> */}
                 </div>
 
 
 
-                {/* Code Demo Section */}
                 <div id="demo" style={demoSectionStyle}>
                     <div>
                         <h2 style={{
@@ -419,7 +383,6 @@ def fibonacci_optimized(n):
                     </div>
                 </div>
 
-                {/* Features Grid */}
                 <div id="features" style={featuresGridStyle}>
                     {features.map((feature, index) => (
                         <div
@@ -443,7 +406,6 @@ def fibonacci_optimized(n):
                     ))}
                 </div>
 
-                {/* CTA Section */}
                 <div style={ctaSectionStyle}>
                     <h2 style={{ fontSize: '48px', fontWeight: '800', marginBottom: '24px' }}>
                         Ready to Transform Your Coding Journey?

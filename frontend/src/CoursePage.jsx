@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+// This is the Courses Page where users can select a topic, which will then navigate them to the corresponding Problem Page for that topic.
+
+import { useState, useEffect } from 'react';
 
 const topics = [
     {
@@ -266,7 +268,6 @@ const CoursePage = () => {
 
     return (
         <div style={containerStyle}>
-            {/* Header Section */}
             <div style={headerStyle}>
                 <h1 style={titleStyle}>Choose Your Learning Path</h1>
                 <p style={subtitleStyle}>
@@ -275,7 +276,6 @@ const CoursePage = () => {
             </div>
 
             <div style={contentStyle}>
-                {/* Stats Section */}
                 <div style={statsContainerStyle}>
                     <div style={statCardStyle}>
                         <span style={statNumberStyle}>6</span>
@@ -295,7 +295,6 @@ const CoursePage = () => {
                     </div>
                 </div>
 
-                {/* Filter Section */}
                 <div style={filterContainerStyle}>
                     {filters.map(filter => (
                         <button
@@ -320,7 +319,6 @@ const CoursePage = () => {
                     ))}
                 </div>
 
-                {/* Topics Grid */}
                 <div style={topicsGridStyle}>
                     {filteredTopics.map((topic, index) => (
                         <a
@@ -385,7 +383,6 @@ const CoursePage = () => {
                     )}
                 </div>
 
-                {/* Call to Action */}
                 <div style={{
                     textAlign: 'center',
                     marginTop: '80px',

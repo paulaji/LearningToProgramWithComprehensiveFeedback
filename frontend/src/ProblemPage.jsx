@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+// Problem Page with Pyodide integration, API calls, and real-time feedback generation.
+
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const ProblemPage = () => {
@@ -6,7 +8,6 @@ const ProblemPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState('code');
 
-    // Mock topic from URL params
     const [searchParams] = useSearchParams();
     const topic = searchParams.get("topic");
     const topicDifficulty = searchParams.get("topicDifficulty");
@@ -26,7 +27,7 @@ const ProblemPage = () => {
 
     const [blurValue, setBlurValue] = useState("8px");
 
-    // Timer related state and ref
+    // Timer
     const [timeLeft, setTimeLeft] = useState(300);
     const [showClock, setShowClock] = useState(true);
     const timerIntervalRef = useRef(null);
@@ -56,7 +57,7 @@ const ProblemPage = () => {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    // Clean up timer on component unmount
+    // Cleaning up timer on component unmount
     useEffect(() => {
         return () => {
             if (timerIntervalRef.current) {
@@ -75,7 +76,6 @@ const ProblemPage = () => {
         setOutput('Running code...');
 
         try {
-            // Redirect stdout using Python's `io.StringIO`
             await pyodide.runPythonAsync(`
 import sys
 from io import StringIO
@@ -83,10 +83,8 @@ from io import StringIO
 sys.stdout = sys.stderr = output_buffer = StringIO()
         `);
 
-            // Run user code
             await pyodide.runPythonAsync(code);
 
-            // Get captured output
             const result = await pyodide.runPythonAsync('output_buffer.getvalue()');
             setOutput(result || 'Code executed (no output).');
 
@@ -116,22 +114,19 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         }
     };
 
-    // Fixed startClock function
     const startClock = () => {
-        // Clear any existing timer first
         if (timerIntervalRef.current) {
             clearInterval(timerIntervalRef.current);
         }
 
         if (!showClock) return;
 
-        // Store the interval reference
         timerIntervalRef.current = setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerIntervalRef.current);
                     timerIntervalRef.current = null;
-                    setShowClock(false); // Hide clock when time's up
+                    setShowClock(false);
                     return 0;
                 }
                 return prev - 1;
@@ -139,7 +134,6 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         }, 1000);
     };
 
-    // Handle View Problem Statement button click
     const handleViewProblemStatement = async () => {
         setBlurValue("8px");
         const res = await fetch(`http://localhost:5000/getproblemstatement?topic=${topic}&difficulty=${topicDifficulty}&description=${topicDescription}`);
@@ -150,17 +144,15 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         setQuestionBrief(data.question_brief ?? '');
         setAiFeedback("Run the Code to get AI feedbacks");
 
-        // Reset and start timer
+        // Reset and start the timer when new Question is called for
         setTimeLeft(300);
         setShowClock(true);
         startClock();
     };
 
-    // Convert seconds to MM:SS format
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
-    // Format with leading zeros
     const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
     const containerStyle = {
@@ -387,7 +379,6 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         <div style={containerStyle}>
             <div style={mouseGlowStyle} />
 
-            {/* Floating particles */}
             {[...Array(6)].map((_, i) => (
                 <ParticleComponent key={i} index={i} />
             ))}
@@ -425,9 +416,9 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             fontWeight: '600',
                             fontSize: '16px',
                             marginBottom: '12px',
-                            backgroundColor: 'rgba(239, 68, 68, 0.3)', // subtle red background
+                            backgroundColor: 'rgba(239, 68, 68, 0.3)',
                             padding: '12px 16px',
-                            borderLeft: '4px solid rgba(239, 68, 68, 1)', // subtle red border
+                            borderLeft: '4px solid rgba(239, 68, 68, 1)',
                             borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'flex-start',

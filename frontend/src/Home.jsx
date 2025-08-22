@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const Home = () => {
     const [pyodide, setPyodide] = useState(null);
@@ -22,7 +22,6 @@ const Home = () => {
         loadPyodideScript();
     }, []);
 
-    // Compile and run Python code
     const runPythonCode = async () => {
         if (!pyodide) {
             setOutput('Pyodide is still loading...');
@@ -30,7 +29,6 @@ const Home = () => {
         }
 
         try {
-            // Redirect stdout to capture print() output
             await pyodide.runPythonAsync(`
 import sys
 from io import StringIO
@@ -38,10 +36,8 @@ sys.stdout = StringIO()
 sys.stderr = sys.stdout
         `);
 
-            // Run user code
             await pyodide.runPythonAsync(code);
 
-            // Get the captured output
             const output = await pyodide.runPythonAsync('sys.stdout.getvalue()');
             setOutput(output);
         } catch (err) {

@@ -1,4 +1,8 @@
-# Commenting here - eg. like using llama 
+# This Flask application uses the Llama-3.3-70B model via the Groq API for generating programming-related content.
+# It handles requests to generate questions, answers, and feedback for Python coding tasks.
+# Llama-3.3-70B is a large language model used to provide AI-powered assistance in coding education.
+# Pyodide is used for running Python code directly in the browser without the need for local setups.
+
 import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -112,6 +116,7 @@ def feedback():
     print(f"Code: {code}")
     print(f"Answer: {answer}")
 
+    # AI Feedback
     chat_completion = client.chat.completions.create(
     messages=[
         {
@@ -137,6 +142,7 @@ def errorfeedback():
     error = data.get('err')
     answer = data.get('answer')
 
+    # AI Error Feedback
     chat_completion = client.chat.completions.create(
     messages=[
         {
