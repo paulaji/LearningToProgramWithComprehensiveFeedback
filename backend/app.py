@@ -100,6 +100,59 @@ def get_problem_statement():
         "question_brief": str(question_brief),
     })
 
+@app.route('/getfeedback', methods=['POST'])
+def feedback():
+    data = request.get_json()
+
+    result = data.get('result')
+    code = data.get('code')
+    answer = data.get('answer')
+
+    print(f"Result: {result}")
+    print(f"Code: {code}")
+    print(f"Answer: {answer}")
+
+    chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You provide feedbacks as plain text, no need text decorations such as bolding or italics."
+        },
+        {
+            "role": "user",
+            "content": f"Generate a feedback statement by comparing the {code} and {answer}. Always give feedback on the {code} because that it is what the user is giving. The {answer} is AI generated and the user {code} should be compared with the {answer} How can it be improved or is it already good enough.",
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+    )
+    print("The feedback is ", chat_completion.choices[0].message.content)
+    feedback = chat_completion.choices[0].message.content
+
+    return jsonify({"feedback": feedback})
+
+@app.route('/geterrorfeedback', methods=['POST'])
+def errorfeedback():
+    data = request.get_json()
+
+    error = data.get('err')
+
+    chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You provide feedbacks as plain text, no need text decorations such as bolding or italics."
+        },
+        {
+            "role": "user",
+            "content": f"Generate a feedback statement regarding the {error} - error statement.",
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+    )
+    print("The feedback is ", chat_completion.choices[0].message.content)
+    feedback = chat_completion.choices[0].message.content
+
+    return jsonify({"feedback": feedback})
 
 if __name__ == '__main__':
     app.run(debug=True)

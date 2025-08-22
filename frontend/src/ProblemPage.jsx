@@ -22,7 +22,6 @@ const ProblemPage = () => {
 
     const [aiFeedback, setAiFeedback] = useState("");
     const [tipsAndSuggestions, setTipsAndSuggestions] = useState("");
-    const [codeSuggestions, setCodeSuggestions] = useState([]);
     const [questionBrief, setQuestionBrief] = useState("Question...");
 
     const [blurValue, setBlurValue] = useState("8px");
@@ -90,8 +89,28 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
             // Get captured output
             const result = await pyodide.runPythonAsync('output_buffer.getvalue()');
             setOutput(result || 'Code executed (no output).');
+
+            const backendResult = await fetch("http://localhost:5000/getfeedback", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ result, code, answer })
+            });
+            const backendResultData = await backendResult.json();
+            setAiFeedback(backendResultData.feedback);
+
         } catch (err) {
             setOutput(`❌ Error:\n${err}`);
+            const backendResult = await fetch("http://localhost:5000/geterrorfeedback", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ err })
+            });
+            const backendResultData = await backendResult.json();
+            setAiFeedback(backendResultData.feedback);
         } finally {
             setIsRunning(false);
         }
@@ -129,6 +148,7 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
         setAnswer(data.answer ?? '');
         setTipsAndSuggestions(data.tips_and_suggestions ?? '');
         setQuestionBrief(data.question_brief ?? '');
+        setAiFeedback("Run the Code to get AI feedbacks");
 
         // Reset and start timer
         setTimeLeft(300);
@@ -468,9 +488,14 @@ sys.stdout = sys.stderr = output_buffer = StringIO()
                             <span>🤖</span> AI Feedback
                         </h3>
                         <div style={{
-                            color: 'rgba(255, 255, 255, 0.9)',
-                            lineHeight: '1.6',
-                            whiteSpace: 'pre-line'
+                            whiteSpace: 'pre-wrap',
+                            fontFamily: 'monospace',
+                            backgroundColor: '#0f172a',
+                            padding: '16px',
+                            borderRadius: '8px',
+                            color: 'white',
+                            lineHeight: '1.5',
+                            fontSize: '14px',
                         }}>
                             {aiFeedback}
                         </div>
